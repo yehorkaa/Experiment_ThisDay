@@ -1,3 +1,4 @@
+'use strict';
 document.querySelector(".image").classList.add("none");
 navigator.geolocation.getCurrentPosition(function (position) {
     const latitude = position.coords.latitude;
@@ -42,6 +43,7 @@ navigator.geolocation.getCurrentPosition(function (position) {
           });
       });
   });
+
 
 
 
