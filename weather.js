@@ -9,13 +9,13 @@ navigator.geolocation.getCurrentPosition(function (position) {
       .then(res => res.json())
       .then(data => {
         const city = data.name.toUpperCase();
-        getCity(city)
+        getWeatherCity(city)
       
       });
   });
 
 
-  function getCity(city) {
+  function getWeatherCity(city) {
     fetch(
       `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=5d066958a60d315387d9492393935c19`
     )
