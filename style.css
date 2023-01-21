@@ -2,27 +2,56 @@ body {
   display: flex;
   justify-content: center;
 }
-.container {
 
-  background:purple;
-  width: 300px;
-  height: 200px;
+*{
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  color: black;
+}
+.container {
+  background: rgb(156, 43, 144);
+  background: linear-gradient(
+    297deg,
+    rgba(156, 43, 144, 1) 22%,
+    rgba(131, 58, 180, 1) 65%
+  );
+  border-radius: 18px;
+  max-width: 300px;
+  min-height: 200px;
   padding: 30px;
 }
 
 .blockChoices {
-  margin-top: 30px;
-  
+  margin-top: 90px;
 }
 
 .facts {
   height: 90px;
 }
 
-button {
-  max-width: 135px;
+.UpDown {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-#number-fact {
+button {
+  border: 0px;
+  border-radius: 17px;
+  max-width: 135px;
+  margin-top: 10px;
+  height: 40px;
+  background: whitesmoke;
+}
+
+.up,
+.down,
+.life,
+.math,
+.date,
+.year {
+  cursor: pointer;
+  border-radius: 14px;
+  border: 0px;
+  background:black;
 
 }

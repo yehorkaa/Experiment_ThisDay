@@ -48,9 +48,10 @@ buttons.addEventListener("click", (event) => {
   }
 });
 
-function getUpAndDown(button, currentCounter)  {
-  button.addEventListener("click", () => {
-    currentCounter = localStorage.getItem("counter");
+
+function getUp() {
+  up.addEventListener("click", () => {
+    let currentCounter = localStorage.getItem("counter");
     currentCounter++;
     localStorage.setItem("counter", currentCounter);
     number.innerHTML = currentCounter;
@@ -61,11 +62,44 @@ function getUpAndDown(button, currentCounter)  {
       });
   });
 }
+getUp();
 
-let item = localStorage.getItem('counter')
-getUpAndDown(up, item++)
-getUpAndDown(down, item--)
+function getDown() {
+  down.addEventListener("click", () => {
+    let currentCounter = localStorage.getItem("counter");
+    currentCounter--;
+    localStorage.setItem("counter", currentCounter);
+    number.innerHTML = currentCounter;
+    fetch(`http://numbersapi.com/${currentCounter}/trivia?json`)
+      .then((res) => res.json())
+      .then((info) => {
+        textField.innerHTML = info.text;
+      });
+  });
+}
+getDown();
+
 document.addEventListener("DOMContentLoaded", () => {
   number.innerHTML = localStorage.getItem("counter");
   textField.innerHTML = localStorage.getItem("text");
 });
+
+
+
+// function getUpAndDown(button, currentCounter)  {
+//   button.addEventListener("click", () => {
+//     currentCounter = localStorage.getItem("counter");
+//     currentCounter++;
+//     localStorage.setItem("counter", currentCounter);
+//     number.innerHTML = currentCounter;
+//     fetch(`http://numbersapi.com/${currentCounter}/trivia?json`)
+//       .then((res) => res.json())
+//       .then((info) => {
+//         textField.innerHTML = info.text;
+//       });
+//   });
+// }
+
+// let item = localStorage.getItem('counter')
+// getUpAndDown(up, item++)
+// getUpAndDown(down, item--)
