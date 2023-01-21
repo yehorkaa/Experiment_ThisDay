@@ -13,7 +13,7 @@ const buttons = document.querySelector(".blockChoices"),
   up = document.querySelector("[data-up]"),
   down = document.querySelector("[data-down]"),
   number = document.querySelector("#number"),
-  UpDown = document.querySelector(".UpDown"),
+  // UpDown = document.querySelector(".UpDown"),
   textField = document.querySelector(".textfield");
 
 let counter = 0;
@@ -75,36 +75,40 @@ buttons.addEventListener("click", (event) => {
       });
   }
 });
-UpDown.addEventListener("click", (e) => {
-  const event = e.target;
-  function getUp() {
-    if (event === up) {
-      counter++;
 
-      number.innerHTML = counter;
-      fetch(`http://numbersapi.com/${counter}/trivia?json`)
-        .then((res) => res.json())
-        .then((info) => {
-          textField.innerHTML = info.text;
-        });
-    }
-  }
-  getUp();
-  function getDown() {
-    if (event === down) {
-      counter--;
-      number.innerHTML = counter;
-      fetch(`http://numbersapi.com/${counter}/trivia?json`)
-        .then((res) => res.json())
-        .then((info) => {
-          textField.innerHTML = info.text;
-        });
-    }
-  }
-  getDown();
-  localStorage.setItem("counter", counter);
-});
+function getUp() {
+  up.addEventListener("click", () => {
+    localStorage.getItem("counter");
+    counter++;
+    localStorage.setItem("counter", counter);
+    number.innerHTML = counter;
+    fetch(`http://numbersapi.com/${counter}/trivia?json`)
+      .then((res) => res.json())
+      .then((info) => {
+        textField.innerHTML = info.text;
+      });
+  });
+}
+getUp();
+
+function getDown() {
+  down.addEventListener('click', () => { 
+    localStorage.getItem("counter");
+    counter--;
+    localStorage.setItem("counter", counter);
+    number.innerHTML = counter;
+    fetch(`http://numbersapi.com/${counter}/trivia?json`)
+      .then((res) => res.json())
+      .then((info) => {
+        textField.innerHTML = info.text;
+      });
+  })
+}
+getDown();
+
+
 document.addEventListener("DOMContentLoaded", () => {
   number.innerHTML = localStorage.getItem("counter");
   textField.innerHTML = localStorage.getItem("text");
+  
 });
