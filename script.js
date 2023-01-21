@@ -1,10 +1,4 @@
 "use strict";
-
-// html:
-// <input type="text" data-text-input />
-
-// js:
-// const textInput = document.querySelector('[data-text-input]');
 const buttons = document.querySelector(".blockChoices"),
   first = document.querySelector("[data-life]"),
   second = document.querySelector("[data-math]"),
@@ -13,13 +7,27 @@ const buttons = document.querySelector(".blockChoices"),
   up = document.querySelector("[data-up]"),
   down = document.querySelector("[data-down]"),
   number = document.querySelector("#number"),
-  // UpDown = document.querySelector(".UpDown"),
   textField = document.querySelector(".textfield");
 
-let counter = 0;
-// реализовать логику что  если юзер клацнул на рандом мас например то тут тоже выдает факт связанный с этим и с каунтером
 if (!localStorage.getItem("counter")) {
   localStorage.setItem("counter", 0);
+}
+
+function getChanges(sentence) {
+  textField.innerHTML = sentence.text;
+  textField.style.display = "block";
+  number.innerHTML = sentence.number;
+  localStorage.setItem("counter", sentence.number);
+  localStorage.setItem("text", sentence.text);
+}
+
+function getType(type) {
+  fetch(`http://numbersapi.com/random/${type}?json`)
+    .then((res) => res.json())
+    .then((sentence) => {
+      console.log(sentence);
+      getChanges(sentence);
+    });
 }
 
 buttons.addEventListener("click", (event) => {
@@ -27,88 +35,37 @@ buttons.addEventListener("click", (event) => {
   const e = event.target;
   textField.style.display = "none";
   if (e === first) {
-    fetch("http://numbersapi.com/random/trivia?json")
-      .then((res) => res.json())
-      .then((sentence) => {
-        console.log(sentence);
-        textField.style.display = "block";
-        textField.innerHTML = sentence.text;
-        number.innerHTML = sentence.number;
-        localStorage.setItem("counter", sentence.number);
-        localStorage.setItem("text", sentence.text);
-      });
+    getType("trivia");
   }
   if (e === second) {
-    fetch("http://numbersapi.com/random/math?json")
-      .then((res) => res.json())
-      .then((sentence) => {
-        console.log(sentence);
-        textField.innerHTML = sentence.text;
-        textField.style.display = "block";
-        number.innerHTML = sentence.number;
-        localStorage.setItem("counter", sentence.number);
-        localStorage.setItem("text", sentence.text);
-      });
+    getType("math");
   }
   if (e === third) {
-    fetch("http://numbersapi.com/random/date?json")
-      .then((res) => res.json())
-      .then((sentence) => {
-        console.log(sentence);
-        textField.style.display = "block";
-        textField.innerHTML = sentence.text;
-        number.innerHTML = sentence.number;
-        localStorage.setItem("counter", sentence.number);
-        localStorage.setItem("text", sentence.text);
-      });
+    getType("date");
   }
   if (e === fourth) {
-    fetch("http://numbersapi.com/random/year?json")
-      .then((res) => res.json())
-      .then((sentence) => {
-        console.log(sentence);
-        textField.style.display = "block";
-        textField.innerHTML = sentence.text;
-        number.innerHTML = sentence.number;
-        localStorage.setItem("counter", sentence.number);
-        localStorage.setItem("text", sentence.text);
-      });
+    getType("year");
   }
 });
 
-function getUp() {
-  up.addEventListener("click", () => {
-    localStorage.getItem("counter");
-    counter++;
-    localStorage.setItem("counter", counter);
-    number.innerHTML = counter;
-    fetch(`http://numbersapi.com/${counter}/trivia?json`)
+function getUpAndDown(button, currentCounter)  {
+  button.addEventListener("click", () => {
+    currentCounter = localStorage.getItem("counter");
+    currentCounter++;
+    localStorage.setItem("counter", currentCounter);
+    number.innerHTML = currentCounter;
+    fetch(`http://numbersapi.com/${currentCounter}/trivia?json`)
       .then((res) => res.json())
       .then((info) => {
         textField.innerHTML = info.text;
       });
   });
 }
-getUp();
 
-function getDown() {
-  down.addEventListener('click', () => { 
-    localStorage.getItem("counter");
-    counter--;
-    localStorage.setItem("counter", counter);
-    number.innerHTML = counter;
-    fetch(`http://numbersapi.com/${counter}/trivia?json`)
-      .then((res) => res.json())
-      .then((info) => {
-        textField.innerHTML = info.text;
-      });
-  })
-}
-getDown();
-
-
+let item = localStorage.getItem('counter')
+getUpAndDown(up, item++)
+getUpAndDown(down, item--)
 document.addEventListener("DOMContentLoaded", () => {
   number.innerHTML = localStorage.getItem("counter");
   textField.innerHTML = localStorage.getItem("text");
-  
 });
