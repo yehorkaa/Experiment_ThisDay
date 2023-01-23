@@ -34,25 +34,21 @@ buttons.addEventListener("click", (event) => {
   event.preventDefault();
   const e = event.target;
   textField.style.display = "none";
-  if (e === first) {
-    getType("trivia");
-  }
-  if (e === second) {
-    getType("math");
-  }
-  if (e === third) {
-    getType("date");
-  }
-  if (e === fourth) {
-    getType("year");
+  switch (e) {
+    case first:
+      getType("trivia");
+    case second:
+      getType("math");
+    case third:
+      getType("date");
+    case fourth:
+      getType("year");
   }
 });
-
-
-function getUp() {
-  up.addEventListener("click", () => {
+function getUpAndDown(button, condition) {
+  button.addEventListener("click", () => {
     let currentCounter = localStorage.getItem("counter");
-    currentCounter++;
+    Boolean(condition) ? currentCounter++ : currentCounter--;
     localStorage.setItem("counter", currentCounter);
     number.innerHTML = currentCounter;
     fetch(`http://numbersapi.com/${currentCounter}/trivia?json`)
@@ -62,44 +58,11 @@ function getUp() {
       });
   });
 }
-getUp();
 
-function getDown() {
-  down.addEventListener("click", () => {
-    let currentCounter = localStorage.getItem("counter");
-    currentCounter--;
-    localStorage.setItem("counter", currentCounter);
-    number.innerHTML = currentCounter;
-    fetch(`http://numbersapi.com/${currentCounter}/trivia?json`)
-      .then((res) => res.json())
-      .then((info) => {
-        textField.innerHTML = info.text;
-      });
-  });
-}
-getDown();
+getUpAndDown(up, true);
+getUpAndDown(down, false);
 
 document.addEventListener("DOMContentLoaded", () => {
   number.innerHTML = localStorage.getItem("counter");
   textField.innerHTML = localStorage.getItem("text");
 });
-
-
-
-// function getUpAndDown(button, currentCounter)  {
-//   button.addEventListener("click", () => {
-//     currentCounter = localStorage.getItem("counter");
-//     currentCounter++;
-//     localStorage.setItem("counter", currentCounter);
-//     number.innerHTML = currentCounter;
-//     fetch(`http://numbersapi.com/${currentCounter}/trivia?json`)
-//       .then((res) => res.json())
-//       .then((info) => {
-//         textField.innerHTML = info.text;
-//       });
-//   });
-// }
-
-// let item = localStorage.getItem('counter')
-// getUpAndDown(up, item++)
-// getUpAndDown(down, item--)
